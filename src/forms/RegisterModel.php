@@ -34,6 +34,11 @@ class RegisterModel extends Model
     public $password;
 
     /**
+     * @var string
+     */
+    public $tokenAttribute = 'access_token';
+
+    /**
      * @var ActiveRecord
      */
     protected $user;
@@ -66,6 +71,7 @@ class RegisterModel extends Model
         ));
 
         $this->user->setAttribute('password', \Yii::$app->security->generatePasswordHash($this->password));
+        $this->user->setAttribute($this->tokenAttribute, \Yii::$app->security->generateRandomString());
 
         if (!($this->user->save() && $this->user->refresh())) {
             $this->addErrors($this->user);
