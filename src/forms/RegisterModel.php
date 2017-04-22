@@ -5,7 +5,6 @@ namespace vr\app\user\forms;
 use vr\core\Inflector;
 use vr\core\Model;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class RegisterModel
@@ -66,10 +65,7 @@ class RegisterModel extends Model
 
         $this->user = \Yii::createObject(\Yii::$app->user->identityClass);
 
-        $this->user->setAttributes(ArrayHelper::filter(
-            Inflector::underscore($this->attributes), ['first_name', 'last_name', 'email']
-        ));
-
+        $this->user->setAttributes(Inflector::underscore($this->attributes));
         $this->user->setAttribute('password', \Yii::$app->security->generatePasswordHash($this->password));
         $this->user->setAttribute($this->tokenAttribute, \Yii::$app->security->generateRandomString());
 
